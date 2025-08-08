@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Privacy Policy - CloudifyDB</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2300bcd4' d='M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z'/></svg>">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --card: #1e1e1e;
+    --accent: #00bcd4;
+    --text: #e1e1e1;
+    --muted: #888;
+    --border: #222;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-width: 320px;
+  }
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  svg.logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  svg.logo path {
+    fill: var(--accent);
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 0.5rem;
+  }
+  p.subtitle {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 3vw, 2rem);
+    background: #111;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+  nav a:hover {
+    color: var(--accent);
+  }
+  main {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+  section {
+    margin-bottom: 4rem;
+  }
+  section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 0.5rem;
+  }
+  section h3 {
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+  section p {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+    margin-bottom: 1.5rem;
+  }
+  ul, ol {
+    margin-left: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+  }
+  li {
+    margin-bottom: 0.8rem;
+  }
+  .important-box {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    margin: 2rem 0;
+  }
+  .important-box h3 {
+    color: var(--accent);
+    margin-top: 0;
+  }
+  .btn {
+    background-color: var(--accent);
+    color: var(--bg);
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+    margin-right: 1rem;
+  }
+  .btn:hover {
+    opacity: 0.9;
+  }
+  .btn-secondary {
+    background-color: var(--card);
+    color: var(--text);
+    border: 2px solid var(--accent);
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding: 3rem 1rem;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  }
+
+  ::-webkit-scrollbar {
+    background: transparent;
+    width: 0px;
+  }
+
+  html, body {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+  
+  @media (max-width: 768px) {
+    nav {
+      gap: 0.8rem;
+      padding: 0.8rem;
+    }
+    
+    nav a {
+      font-size: 0.85rem;
+    }
+    
+    section {
+      margin-bottom: 3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 2rem 1rem 1.5rem;
+    }
+    
+    svg.logo {
+      width: 50px;
+      height: 50px;
+    }
+    
+    main {
+      margin: 2rem auto;
+    }
+  }
+
+  @media (max-width: 320px) {
+    body {
+      font-size: 14px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    section h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z"/>
+  </svg>
+  <h1>CloudifyDB</h1>
+  <p class="subtitle">Privacy Policy & Data Collection</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="#data-collection">Data Collection</a>
+  <a href="#why-collect">Why We Collect</a>
+  <a href="#data-security">Data Security</a>
+  <a href="#your-rights">Your Rights</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<main>
+
+<section id="overview">
+  <h2>Privacy & Data Collection Notice</h2>
+  <div class="important-box">
+    <h3>Important Information</h3>
+    <p>CloudifyDB collects and stores certain personal data when you use our service. This page explains what data we collect, why we do it, and how you can exercise your rights.</p>
+  </div>
+  <p>By using CloudifyDB, you agree to the collection and processing of your data as described in this privacy policy. We take your privacy seriously and comply with all applicable privacy laws.</p>
+</section>
+
+<section id="data-collection">
+  <h2>What Data Do We Collect?</h2>
+  <p>When you log in and use CloudifyDB, we collect the following information:</p>
+  
+  <h3>Google Account Information</h3>
+  <ul>
+    <li>Your Google account ID and email address</li>
+    <li>Your name as linked to your Google account</li>
+    <li>Profile picture (if available)</li>
+  </ul>
+
+  <h3>Device Fingerprinting</h3>
+  <ul>
+    <li><strong>Browser information:</strong> User agent, language, platform</li>
+    <li><strong>Screen resolution:</strong> Your screen size</li>
+    <li><strong>Timezone:</strong> Your local timezone and UTC offset</li>
+    <li><strong>Hardware specs:</strong> Memory and processor information (if available)</li>
+    <li><strong>Touch support:</strong> Whether your device has a touchscreen</li>
+  </ul>
+
+  <h3>IP Address & Location Data</h3>
+  <ul>
+    <li><strong>IP address:</strong> Your public IP address</li>
+    <li><strong>Location:</strong> City, region, country (based on IP)</li>
+    <li><strong>Coordinates:</strong> Estimated latitude and longitude</li>
+    <li><strong>Internet Provider:</strong> ASN, organization, postal code</li>
+  </ul>
+
+  <h3>Database Data</h3>
+  <ul>
+    <li>All data you store in your CloudifyDB databases</li>
+    <li>API keys and database names</li>
+    <li>Usage statistics and request logs</li>
+  </ul>
+</section>
+
+<section id="why-collect">
+  <h2>Why Do We Collect This Data?</h2>
+  
+  <h3>Service Delivery</h3>
+  <p>We use your data to operate CloudifyDB, manage databases, and authenticate your account.</p>
+
+  <h3>Security & Fraud Prevention</h3>
+  <p>Device fingerprinting and IP tracking help us detect suspicious activities, prevent unauthorized access, and secure your account against misuse.</p>
+
+  <h3>Service Improvement</h3>
+  <p>Usage statistics help us optimize the service and troubleshoot issues.</p>
+
+  <h3>Compliance & Legal Requirements</h3>
+  <p>In some cases, we are legally required to retain certain data for compliance purposes.</p>
+</section>
+
+<section id="data-security">
+  <h2>How Do We Secure Your Data?</h2>
+  <p>We take various measures to protect your data:</p>
+  <ul>
+    <li><strong>Encryption:</strong> All data is encrypted and transmitted via HTTPS</li>
+    <li><strong>Access control:</strong> Only authorized personnel have access to systems</li>
+    <li><strong>Regular backups:</strong> Your data is regularly backed up</li>
+    <li><strong>Monitoring:</strong> We monitor our systems for suspicious activity</li>
+    <li><strong>API Keys:</strong> Treat your API keys like passwords and never share them</li>
+  </ul>
+</section>
+
+<section id="data-sharing">
+  <h2>Do We Share Your Data?</h2>
+  <p>We never sell your personal data to third parties. We may share data only:</p>
+  <ul>
+    <li>With your explicit consent</li>
+    <li>When legally required (for example, by court order)</li>
+    <li>With service providers that help us deliver the service (under strict contracts)</li>
+    <li>To protect our rights or prevent fraud</li>
+  </ul>
+</section>
+
+<section id="your-rights">
+  <h2>Your Rights</h2>
+  <p>You have several rights regarding your personal data:</p>
+  
+  <h3>Right of Access</h3>
+  <p>You can request information on what data we have stored about you.</p>
+
+  <h3>Right to Rectification</h3>
+  <p>You can request correction of inaccurate data.</p>
+
+  <h3>Right to Erasure</h3>
+  <p>You can request deletion of your data (“right to be forgotten”).</p>
+
+  <h3>Right to Data Portability</h3>
+  <p>You can request a copy of your data in a machine-readable format.</p>
+
+  <h3>Right to Object</h3>
+  <p>You can object to certain types of data processing.</p>
+</section>
+
+<section id="cookies">
+  <h2>Cookies & Tracking</h2>
+  <p>CloudifyDB uses cookies and similar technologies:</p>
+  <ul>
+    <li><strong>Essential cookies:</strong> Required for login and basic features</li>
+    <li><strong>Analytics cookies:</strong> To understand site usage</li>
+    <li><strong>Device fingerprinting:</strong> For security and fraud prevention</li>
+  </ul>
+  <p>You can manage cookies via your browser settings, but this may affect functionality.</p>
+</section>
+
+<section id="data-retention">
+  <h2>How Long Do We Retain Your Data?</h2>
+  <p>We keep your data for as long as necessary for:</p>
+  <ul>
+    <li>Providing the CloudifyDB service</li>
+    <li>Meeting legal obligations</li>
+    <li>Resolving disputes</li>
+  </ul>
+  <p>When you delete your account, your data is permanently removed within 30 days, unless we are legally required to keep it longer.</p>
+</section>
+
+<section id="changes">
+  <h2>Changes to This Privacy Policy</h2>
+  <p>We may update this privacy policy from time to time. We will communicate significant changes via:</p>
+  <ul>
+    <li>Email notification to your registered address</li>
+    <li>Notice in your CloudifyDB dashboard</li>
+    <li>Update on this page with a new date</li>
+  </ul>
+  <p><strong>Last update:</strong> <span id="last-updated"></span></p>
+</section>
+
+<section id="contact">
+  <h2>Contact & Questions</h2>
+  <p>Do you have questions about this privacy policy or want to exercise your rights? Contact us:</p>
+  <div class="important-box">
+    <h3>Contact Information</h3>
+    <p><strong>Email:</strong> privacy@cloudifydb.com</p>
+    <p><strong>Support:</strong> support@cloudifydb.com</p>
+    <p>We respond to privacy-related requests within 72 hours.</p>
+  </div>
+
+  <a href="index.html" class="btn">Back to Home</a>
+  <a href="contact.html" class="btn btn-secondary">Contact Us</a>
+</section>
+
+</main>
+
+<footer>
+  &copy; <span id="year"></span> CloudifyDB — Your privacy is important to us.
+</footer>
+
+<script>
+document.getElementById('year').innerHTML = new Date().getFullYear();
+document.getElementById('last-updated').innerHTML = new Date().toLocaleDateString('en-US', { 
+  year: 'numeric', 
+  month: 'long', 
+  day: 'numeric' 
+});
+</script>
+
+</body>
+</html>

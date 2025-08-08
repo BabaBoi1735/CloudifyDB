@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - CloudifyDB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2300bcd4' d='M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z'/></svg>">
+  
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #1e1e1e;
+      --accent: #00bcd4;
+      --text: #e1e1e1;
+      --muted: #888;
+      --border: #222;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: auto;
+    }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
+    }
+    
+    nav {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .nav-brand svg {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .nav-brand svg path {
+      fill: var(--accent);
+    }
+    
+    .nav-brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-info {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    
+    .logout-btn {
+      background: var(--error);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: opacity 0.2s ease;
+    }
+    
+    .logout-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .welcome-section {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+    }
+    
+    .welcome-section h2 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-size: 1.75rem;
+    }
+    
+    .welcome-section p {
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    
+    .main-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+    
+    .section h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s ease;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    
+    .btn:hover {
+      opacity: 0.9;
+    }
+    
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    
+    .api-key-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .api-key-section h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    
+    .api-key-display {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      word-break: break-all;
+      margin-bottom: 1rem;
+      position: relative;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    
+    .copy-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+    
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+    
+    .database-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .database-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .database-info h4 {
+      color: var(--text);
+      margin: 0;
+    }
+    
+    .database-info p {
+      color: var(--muted);
+      margin: 0.25rem 0 0 0;
+      font-size: 0.9rem;
+    }
+    
+    .database-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+    
+    .logs-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .log-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+    }
+    
+    .log-time {
+      color: var(--muted);
+    }
+    
+    .log-method {
+      color: var(--accent);
+      font-weight: bold;
+    }
+    
+    .log-status-200 { color: var(--success); }
+    .log-status-400 { color: var(--warning); }
+    .log-status-500 { color: var(--error); }
+    
+    .loading {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem;
+      font-size: 1.1rem;
+    }
+    
+    .spinner {
+      border: 2px solid var(--border);
+      border-top: 2px solid var(--accent);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+      background: var(--error);
+      color: white;
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .success-message {
+      background: var(--success);
+      color: white;
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    
+    .modal-content {
+      background-color: var(--card);
+      margin: 10% auto;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+    }
+    
+    .modal h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+    }
+    
+    .close {
+      color: var(--muted);
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover {
+      color: var(--text);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      nav {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .main-sections {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .api-key-display {
+        font-size: 0.8rem;
+        padding: 0.8rem;
+      }
+      
+      .copy-btn {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 0.5rem;
+        display: block;
+        width: 100%;
+      }
+      
+      .database-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+    }
+  </style>
+
+  <script>
+    let databases = [
+      { id: 1, name: 'PlayerData', records: 1247, created: '2024-01-15' },
+      { id: 2, name: 'GameStats', records: 892, created: '2024-02-03' }
+    ];
+    
+    let logs = [
+      { time: '2024-08-08 14:32:15', method: 'POST', endpoint: '/data/players', status: 200, ip: '192.168.1.1' },
+      { time: '2024-08-08 14:31:42', method: 'GET', endpoint: '/data/players/123', status: 200, ip: '192.168.1.2' },
+      { time: '2024-08-08 14:30:18', method: 'PUT', endpoint: '/data/players/456', status: 200, ip: '192.168.1.1' },
+      { time: '2024-08-08 14:29:55', method: 'DELETE', endpoint: '/data/players/789', status: 404, ip: '192.168.1.3' },
+      { time: '2024-08-08 14:28:22', method: 'POST', endpoint: '/data/gamestats', status: 500, ip: '192.168.1.4' }
+    ];
+
+    function getUserSession() {
+      return { email: 'user@example.com', loginTime: Date.now() };
+    }
+
+    function clearUserSession() {
+      // Session cleared
+    }
+
+    function checkAuth() {
+      return getUserSession();
+    }
+
+    function logout() {
+      clearUserSession();
+      window.location.href = "index.html";
+    }
+
+    function copyApiKey() {
+      const apiKeyElement = document.getElementById("api-key-display");
+      const apiKey = apiKeyElement.textContent.trim();
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(apiKey).then(() => {
+          showCopySuccess();
+        }).catch(() => {
+          fallbackCopy(apiKey);
+        });
+      } else {
+        fallbackCopy(apiKey);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand("copy");
+        showCopySuccess();
+      } catch (err) {
+        console.error('Copy failed:', err);
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    function showCopySuccess() {
+      const copyBtn = document.querySelector(".copy-btn");
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = "Copied!";
+      copyBtn.style.background = "var(--success)";
+      
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+        copyBtn.style.background = "var(--accent)";
+      }, 2000);
+    }
+
+    function generateAPIKey(email) {
+      const prefix = "ck_";
+      const emailHash = email.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      const randomPart = Math.abs(emailHash).toString(36) + Math.random().toString(36).substring(2, 15);
+      return prefix + randomPart;
+    }
+
+    function showCreateDatabaseModal() {
+      document.getElementById('createDatabaseModal').style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function createDatabase() {
+      const name = document.getElementById('dbName').value;
+      const description = document.getElementById('dbDescription').value;
+      
+      if (!name) {
+        alert('Database name is required');
+        return;
+      }
+      
+      const newDb = {
+        id: databases.length + 1,
+        name: name,
+        records: 0,
+        created: new Date().toISOString().split('T')[0]
+      };
+      
+      databases.push(newDb);
+      renderDatabases();
+      closeModal('createDatabaseModal');
+      
+      // Clear form
+      document.getElementById('dbName').value = '';
+      document.getElementById('dbDescription').value = '';
+      
+      // Show success message
+      showMessage('Database created successfully!', 'success');
+    }
+
+    function deleteDatabase(id) {
+      if (confirm('Are you sure you want to delete this database?')) {
+        databases = databases.filter(db => db.id !== id);
+        renderDatabases();
+        showMessage('Database deleted successfully!', 'success');
+      }
+    }
+
+    function showMessage(message, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `${type}-message`;
+      messageDiv.textContent = message;
+      
+      const container = document.querySelector('.container');
+      container.insertBefore(messageDiv, container.firstChild);
+      
+      setTimeout(() => {
+        messageDiv.remove();
+      }, 3000);
+    }
+
+    function renderDatabases() {
+      const list = document.getElementById('database-list');
+      list.innerHTML = '';
+      
+      databases.forEach(db => {
+        const item = document.createElement('div');
+        item.className = 'database-item';
+        item.innerHTML = `
+          <div class="database-info">
+            <h4>${db.name}</h4>
+            <p>${db.records} records • Created ${db.created}</p>
+          </div>
+          <div class="database-actions">
+            <button class="btn btn-secondary btn-small" onclick="alert('View database: ${db.name}')">View</button>
+            <button class="btn btn-small" onclick="alert('Edit database: ${db.name}')">Edit</button>
+            <button class="btn logout-btn btn-small" onclick="deleteDatabase(${db.id})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+      
+      // Update stats
+      document.getElementById("databases-count").textContent = databases.length;
+    }
+
+    function renderLogs() {
+      const list = document.getElementById('logs-list');
+      list.innerHTML = '';
+      
+      logs.forEach(log => {
+        const item = document.createElement('div');
+        item.className = 'log-item';
+        item.innerHTML = `
+          <span class="log-time">${log.time}</span> 
+          <span class="log-method">${log.method}</span> 
+          ${log.endpoint} 
+          <span class="log-status-${log.status}">${log.status}</span> 
+          ${log.ip}
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function loadDashboard() {
+      const session = checkAuth();
+      if (!session) return;
+
+      document.getElementById("user-email").textContent = session.email;
+      
+      const apiKey = generateAPIKey(session.email);
+      document.getElementById("api-key-display").textContent = apiKey;
+      
+      document.getElementById("requests-count").textContent = "156";
+      document.getElementById("storage-used").textContent = "2.4 MB";
+      
+      renderDatabases();
+      renderLogs();
+      
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("dashboard-content").style.display = "block";
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadDashboard();
+    });
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('createDatabaseModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z"/>
+      </svg>
+      <h1>CloudifyDB</h1>
+    </div>
+    <div class="nav-actions">
+      <span class="user-info" id="user-email">Loading...</span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    Loading your dashboard...
+  </div>
+
+  <div id="dashboard-content" style="display: none;">
+    <div class="container">
+      <div class="welcome-section">
+        <h2>Welcome to your CloudifyDB Dashboard</h2>
+        <p>Manage your databases, monitor API usage, and track your application's performance.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value" id="databases-count">0</span>
+          <span class="stat-label">Databases</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="requests-count">0</span>
+          <span class="stat-label">API Requests</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="storage-used">0 MB</span>
+          <span class="stat-label">Storage Used</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">Free</span>
+          <span class="stat-label">Current Plan</span>
+        </div>
+      </div>
+
+      <div class="api-key-section">
+        <h3>🔑 Your API Key</h3>
+        <p style="color: var(--muted); margin-bottom: 1rem;">
+          Use this key in your Roblox scripts to connect to CloudifyDB. Keep it secret!
+        </p>
+        <div class="api-key-display" id="api-key-display">
+          Loading API key...
+          <button class="copy-btn" onclick="copyApiKey()">Copy</button>
+        </div>
+        <p style="color: var(--warning); font-size: 0.9rem;">
+          ⚠️ Never share your API key publicly or commit it to version control.
+        </p>
+      </div>
+
+      <div class="main-sections">
+        <div class="section">
+          <h3>🗄️ Your Databases</h3>
+          <button class="btn" onclick="showCreateDatabaseModal()">Create New Database</button>
+          <div id="database-list">
+            <!-- Databases will be rendered here -->
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>📋 Recent API Logs</h3>
+          <div class="logs-list" id="logs-list">
+            <!-- Logs will be rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Database Modal -->
+  <div id="createDatabaseModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('createDatabaseModal')">&times;</span>
+      <h3>Create New Database</h3>
+      <div class="form-group">
+        <label for="dbName">Database Name</label>
+        <input type="text" id="dbName" placeholder="Enter database name">
+      </div>
+      <div class="form-group">
+        <label for="dbDescription">Description (optional)</label>
+        <input type="text" id="dbDescription" placeholder="Enter description">
+      </div>
+      <button class="btn" onclick="createDatabase()">Create Database</button>
+      <button class="btn btn-secondary" onclick="closeModal('createDatabaseModal')">Cancel</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CloudifyDB</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2300bcd4' d='M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z'/></svg>">
+<script src="https://accounts.google.com/gsi/client?hl=en" async defer></script>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --card: #1e1e1e;
+    --accent: #00bcd4;
+    --text: #e1e1e1;
+    --muted: #888;
+    --border: #222;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: auto;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-width: 320px;
+  }
+  header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  svg.logo {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+  }
+  svg.logo path {
+    fill: var(--accent);
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 0.5rem;
+  }
+  p.subtitle {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+  }
+  nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 3vw, 2rem);
+    background: #111;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+  nav a:hover {
+    color: var(--accent);
+  }
+  main {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+  section {
+    margin-bottom: 5rem;
+  }
+  section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 0.5rem;
+  }
+  section h3 {
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+  section p {
+    color: var(--muted);
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+    margin-bottom: 1.5rem;
+  }
+  pre {
+    background-color: #222;
+    border-radius: 6px;
+    padding: clamp(0.8rem, 2vw, 1.5rem);
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+    color: #ccc;
+    margin-bottom: 2rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .btn {
+    background-color: var(--accent);
+    color: var(--bg);
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  ::-webkit-scrollbar {
+    background: transparent;
+    width: 0;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding: 3rem 1rem;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  }
+  
+  ul, ol {
+    margin-left: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-card {
+    background: var(--card);
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+  
+  .pricing-card h3 {
+    margin-top: 0;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+  }
+
+  @media (max-width: 768px) {
+    pre {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+    
+    nav {
+      gap: 0.8rem;
+      padding: 0.8rem;
+    }
+    
+    nav a {
+      font-size: 0.85rem;
+    }
+    
+    section {
+      margin-bottom: 3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 2rem 1rem 1.5rem;
+    }
+    
+    svg.logo {
+      width: 50px;
+      height: 50px;
+    }
+    
+    main {
+      margin: 2rem auto;
+    }
+    
+    pre {
+      border-radius: 4px;
+      font-size: 0.7rem;
+    }
+  }
+
+  @media (max-width: 320px) {
+    body {
+      font-size: 14px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    section h2 {
+      font-size: 1.5rem;
+    }
+    
+    pre {
+      font-size: 0.65rem;
+      padding: 0.6rem;
+    }
+  }
+
+  .copy-first {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.copy-first button {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  transform: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.copy-first button img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+
+  #cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #222 0%, #333 100%);
+    color: white;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    z-index: 10000;
+    border-top: 2px solid var(--accent);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    display: none;
+  }
+
+  .cookie-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .cookie-text {
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+
+  .cookie-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .cookie-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .cookie-btn.accept {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .cookie-btn.accept:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .cookie-btn.reject {
+    background-color: transparent;
+    color: var(--text);
+    border: 2px solid var(--muted);
+  }
+
+  .cookie-btn.reject:hover {
+    background-color: var(--muted);
+    color: var(--bg);
+  }
+
+  .cookie-btn.learn-more {
+    background-color: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    text-decoration: none;
+  }
+
+  .cookie-btn.learn-more:hover {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
+
+  @media (max-width: 600px) {
+    #cookie-banner {
+      padding: 15px;
+      font-size: 13px;
+    }
+
+    .cookie-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cookie-btn {
+      width: 100%;
+      max-width: 200px;
+      margin: 2px 0;
+    }
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--muted);
+    padding: 2rem;
+  }
+
+  #g-signin-button {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #g-signin-button.visible {
+    opacity: 1;
+  }
+</style>
+</head>
+
+<body>
+
+<script>
+let isProcessingLogin = false;
+
+async function generateFingerprint() {
+  const fingerprint = {
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    platform: navigator.platform,
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    utcOffset: new Date().getTimezoneOffset(),
+    deviceMemory: navigator.deviceMemory || 'unknown',
+    hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+    touchSupport: ('ontouchstart' in window) || (navigator.maxTouchPoints > 0),
+    timestamp: Date.now()
+  };
+
+  const fingerprintString = JSON.stringify(fingerprint);
+  let hash = 0;
+  for (let i = 0; i < fingerprintString.length; i++) {
+    const char = fingerprintString.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  
+  return Math.abs(hash).toString(36);
+}
+
+function setUserSession(email, deviceId) {
+  const sessionData = {
+    email: email,
+    deviceId: deviceId,
+    loginTime: Date.now()
+  };
+  
+  try {
+    sessionStorage.setItem('cloudifydb_session', JSON.stringify(sessionData));
+  } catch(e) {
+    window.cloudifydb_session = sessionData;
+  }
+}
+
+function getUserSession() {
+  try {
+    const sessionData = sessionStorage.getItem('cloudifydb_session');
+    if (sessionData) {
+      return JSON.parse(sessionData);
+    }
+  } catch(e) {}
+  
+  return window.cloudifydb_session || null;
+}
+
+function clearUserSession() {
+  try {
+    sessionStorage.removeItem('cloudifydb_session');
+  } catch(e) {}
+  window.cloudifydb_session = null;
+}
+
+async function checkExistingLogin() {
+  if (isProcessingLogin) return true;
+  
+  const session = getUserSession();
+  if (session && session.email) {
+    const sessionAge = Date.now() - session.loginTime;
+    if (sessionAge < 24 * 60 * 60 * 1000) {
+      window.location.href = "dashboard.html";
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+async function handleCredentialResponse(response) {
+  if (isProcessingLogin) return;
+  isProcessingLogin = true;
+  
+  try {
+    const base64Url = response.credential.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    
+    const userInfo = JSON.parse(jsonPayload);
+    const deviceId = await generateFingerprint();
+    
+    setUserSession(userInfo.email, deviceId);
+    
+    window.location.href = "dashboard.html";
+    
+  } catch (err) {
+    alert("Login failed. Please try again.");
+    console.error(err);
+  } finally {
+    isProcessingLogin = false;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("currency").innerHTML = '<img src="/robux_16.png" alt="robux">';
+  document.getElementById("currency2").innerHTML = '<img src="/robux_16.png" alt="robux">';
+});
+
+window.onload = async function () {
+  const isAlreadyLoggedIn = await checkExistingLogin();
+  
+  if (!isAlreadyLoggedIn) {
+    try {
+      google.accounts.id.initialize({
+        client_id: "51759421692-33phg8m6c4mbqkvmvjitb92v9asfm2a6.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("g-signin-button"),
+        {
+          theme: "filled_blue",
+          size: "large",
+          text: "continue_with",
+          shape: "pill",
+          logo_alignment: "left"
+        }
+      );
+
+      document.getElementById("g-signin-button").classList.add("visible");
+    } catch (error) {
+      console.error("Google Sign-In initialization failed:", error);
+    }
+  }
+};
+
+function setCookie(name, value, days) {
+  const d = new Date();
+  d.setTime(d.getTime() + (days*24*60*60*1000));
+  const expires = "expires="+ d.toUTCString();
+  document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+  const cname = name + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i].trim();
+    if (c.indexOf(cname) === 0) {
+      return c.substring(cname.length, c.length);
+    }
+  }
+  return "";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  ["copy-button", "copy-button2", "copy-button3", "copy-button4", "copy-button5", "copy-button6"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = '<img src="/add_13168385.png" alt="copy icon">';
+  });
+
+  ["copy-button", "copy-button2", "copy-button3", "copy-button4", "copy-button5", "copy-button6"].forEach(id => {
+    const btn = document.getElementById(id);
+    if(btn) {
+      btn.setAttribute('data-copy-text', 'text' + (id.replace('copy-button', '') || '1'));
+      btn.addEventListener("click", copyToClipboard);
+    }
+  });
+});
+
+const copyTexts = {
+  text1: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local playerName = "NoobMaster"
+local url = "https://api.cloudifydb.com/data/players/" .. playerName .. "?apiKey=" .. apiKey
+local response = HttpService:GetAsync(url)
+local data = HttpService:JSONDecode(response)
+print("Player high score:", data.highScore)`,
+
+  text2: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local playerName = "NoobMaster"
+local url = "https://api.cloudifydb.com/data/players/" .. playerName .. "?apiKey=" .. apiKey
+local response = HttpService:GetAsync(url)
+local data = HttpService:JSONDecode(response)
+print("Player high score:", data.highScore)`,
+
+  text3: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local playerName = "NoobMaster"
+local url = "https://api.cloudifydb.com/data/players/" .. playerName .. "?apiKey=" .. apiKey
+local response = HttpService:RequestAsync({
+  Url = url,
+  Method = "DELETE",
+  Headers = {["Content-Type"] = "application/json"}
+})
+print("Delete response:", response.Body)`,
+
+  text4: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+
+local inventory = {
+  items = {"Sword", "Shield", "Potion"},
+  gold = 500
+}
+
+local url = "https://api.cloudifydb.com/data/inventories/player123?apiKey=" .. apiKey
+local jsonData = HttpService:JSONEncode(inventory)
+
+local success, response = pcall(function()
+  return HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+end)
+
+if success then
+  print("Inventory saved successfully!")
+else
+  warn("Failed to save inventory:", response)
+end`,
+
+  text5: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+
+local url = "https://api.cloudifydb.com/data/inventories/player123?apiKey=" .. apiKey
+
+local success, response = pcall(function()
+  return HttpService:GetAsync(url)
+end)
+
+if success then
+  local inventory = HttpService:JSONDecode(response)
+  print("Player gold:", inventory.gold)
+else
+  warn("Failed to load inventory:", response)
+end`,
+
+  text6: `local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local url = "https://api.cloudifydb.com/data/scores?apiKey=" .. apiKey
+
+local data = { username = "PlayerX", score = 1000 }
+
+local jsonData = HttpService:JSONEncode(data)
+
+local function sendScore()
+  local success, response = pcall(function()
+    return HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+  end)
+  if success then
+    print("Score saved:", response)
+  else
+    warn("Error sending score:", response)
+  end
+end
+
+sendScore()`
+};
+
+function copyToClipboard(event) {
+  const btn = event.currentTarget;
+  const key = btn.getAttribute('data-copy-text');
+  const text = copyTexts[key];
+  
+  if(!text) {
+    console.log("Geen tekst om te kopiëren");
+    return;
+  }
+  
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Text copied!");
+    console.log("Text copied: " + key);
+  }).catch(err => {
+    alert("Error during copying: " + err);
+    console.error("Error during copying:", err);
+  });
+}
+
+</script>
+
+<div id="cookie-banner">
+  <div class="cookie-content">
+    <div class="cookie-text">
+      We use cookies to enhance your experience and analyze our traffic. By continuing, you consent to our cookie policy.
+    </div>
+    <div class="cookie-buttons">
+      <button class="cookie-btn accept" id="accept-cookies">Accept All</button>
+      <button class="cookie-btn reject" id="reject-cookies">Reject</button>
+      <a href="privacy.html" class="cookie-btn learn-more">Learn More</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z"/>
+  </svg>
+  <h1>CloudifyDB</h1>
+  <p class="subtitle">Roblox HTTPService Database Hosting — No Backend Needed</p>
+</header>
+
+<nav>
+  <a href="#intro">Intro</a>
+  <a href="#setup">Setup</a>
+  <a href="#requests">HTTPService Requests</a>
+  <a href="#examples">Examples</a>
+  <a href="#faq">FAQ</a>
+  <a href="#plans">Pricing</a>
+  <a href="#start">Get Started</a>
+</nav>
+
+<main>
+
+<section id="intro">
+  <h2>What is CloudifyDB?</h2>
+  <p>CloudifyDB is a simple serverless database service designed to work seamlessly with Roblox via the built-in <strong>HttpService</strong>. It allows developers, especially beginners and young creators, to store and retrieve data securely without needing to build their own backend.</p>
+  <p>With CloudifyDB, you can:</p>
+  <ul>
+    <li>Create multiple databases instantly</li>
+    <li>Store JSON data easily via HTTP requests</li>
+    <li>Scale your storage as your game or app grows</li>
+    <li>Integrate directly in Roblox Lua without complex server setups</li>
+  </ul>
+  <p>The entire service is optimized for Roblox developers to keep coding fun and accessible.</p>
+</section>
+
+<section id="setup">
+  <h2>Setting Up Your CloudifyDB</h2>
+  <p>Starting with CloudifyDB is straightforward. Follow these easy steps:</p>
+  <ol>
+    <li>Sign up with your Google account</li>
+    <li>Generate your unique API key from the dashboard</li>
+    <li>Decide on a database name you want to create</li>
+    <li>Use Roblox's HttpService to send data to your database via simple HTTP POST and GET requests</li>
+  </ol>
+  <p>No backend hosting, no servers, no fuss.</p>
+  <p>Keep your API key secret — treat it like a password to your database.</p>
+</section>
+
+<section id="requests">
+  <h2>Using Roblox HTTPService with CloudifyDB</h2>
+  <p>Roblox's <strong>HttpService</strong> is the key to communicate with CloudifyDB. It lets your game send web requests and receive responses. Here's how the main HTTP verbs work with CloudifyDB:</p>
+  <ul>
+    <li><strong>POST</strong>: Add new data or update existing entries.</li>
+    <li><strong>GET</strong>: Retrieve data from your database.</li>
+    <li><strong>DELETE</strong>: Remove data.</li>
+  </ul>
+  <p>All requests need your <strong>API key</strong> included as a query parameter for authentication.</p>
+  <p>Base API URL: <code>https://api.cloudifydb.com/data/</code></p>
+  <h3>POST Example (Add or Update Data)</h3>
+  <div class="copy-first">
+    <button id="copy-button" data-copy-text="text1"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local data = {
+  playerName = "NoobMaster",
+  highScore = 2500
+}
+local url = "https://api.cloudifydb.com/data/players?apiKey=" .. apiKey
+local jsonData = HttpService:JSONEncode(data)
+local response = HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+print("Response:", response)</pre>
+
+  <h3>GET Example (Retrieve Data)</h3>
+  <div class="copy-first">
+    <button id="copy-button2" data-copy-text="text2"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local playerName = "NoobMaster"
+local url = "https://api.cloudifydb.com/data/players/" .. playerName .. "?apiKey=" .. apiKey
+local response = HttpService:GetAsync(url)
+local data = HttpService:JSONDecode(response)
+print("Player high score:", data.highScore)</pre>
+
+
+  <h3>DELETE Example (Remove Data)</h3>
+  <div class="copy-first">
+    <button id="copy-button3" data-copy-text="text3"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local playerName = "NoobMaster"
+local url = "https://api.cloudifydb.com/data/players/" .. playerName .. "?apiKey=" .. apiKey
+local response = HttpService:RequestAsync({
+  Url = url,
+  Method = "DELETE",
+  Headers = {["Content-Type"] = "application/json"}
+})
+print("Delete response:", response.Body)</pre>
+
+</section>
+
+<section id="examples">
+  <h2>More Roblox HTTPService Examples</h2>
+  <p>Here are some more useful examples of how to use CloudifyDB with Roblox Lua:</p>
+  <h3>Saving Player Inventory</h3>
+  <div class="copy-first">
+    <button id="copy-button4" data-copy-text="text4"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+
+local inventory = {
+  items = {"Sword", "Shield", "Potion"},
+  gold = 500
+}
+
+local url = "https://api.cloudifydb.com/data/inventories/player123?apiKey=" .. apiKey
+local jsonData = HttpService:JSONEncode(inventory)
+
+local success, response = pcall(function()
+  return HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+end)
+
+if success then
+  print("Inventory saved successfully!")
+else
+  warn("Failed to save inventory:", response)
+end</pre>
+
+  <h3>Loading Player Inventory</h3>
+  <div class="copy-first">
+    <button id="copy-button5" data-copy-text="text5"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+
+local url = "https://api.cloudifydb.com/data/inventories/player123?apiKey=" .. apiKey
+
+local success, response = pcall(function()
+  return HttpService:GetAsync(url)
+end)
+
+if success then
+  local inventory = HttpService:JSONDecode(response)
+  print("Player gold:", inventory.gold)
+else
+  warn("Failed to load inventory:", response)
+end</pre>
+
+  <h3>Handling Errors Gracefully</h3>
+  <div class="copy-first">
+    <button id="copy-button6" data-copy-text="text6"></button>
+  </div>
+  <pre>local HttpService = game:GetService("HttpService")
+local apiKey = "YOUR_API_KEY"
+local url = "https://api.cloudifydb.com/data/scores?apiKey=" .. apiKey
+
+local data = { username = "PlayerX", score = 1000 }
+
+local jsonData = HttpService:JSONEncode(data)
+
+local function sendScore()
+  local success, response = pcall(function()
+    return HttpService:PostAsync(url, jsonData, Enum.HttpContentType.ApplicationJson)
+  end)
+  if success then
+    print("Score saved:", response)
+  else
+    warn("Error sending score:", response)
+  end
+end
+
+sendScore()</pre>
+</section>
+
+<section id="faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <h3>Is CloudifyDB safe for my game data?</h3>
+  <p>Yes! Your data is transmitted over HTTPS and stored securely. Keep your API key private to ensure only authorized access.</p>
+
+  <h3>Can I store any type of data?</h3>
+  <p>CloudifyDB stores data as JSON, so any data structure that can be serialized to JSON is supported (tables, lists, strings, numbers, booleans).</p>
+
+  <h3>Is there a limit on requests?</h3>
+  <p>The free tier allows unlimited requests, but we recommend moderate usage to ensure smooth service. Paid plans support higher storage and priority support.</p>
+
+  <h3>Can I delete or overwrite data?</h3>
+  <p>Yes! Use POST to overwrite or add data, and DELETE to remove entries.</p>
+
+  <h3>Do I need to know advanced web development?</h3>
+  <p>Nope! Roblox HTTPService abstracts the complex parts. Just send and receive JSON via HTTP calls using Lua scripts.</p>
+
+  <h3>How do I get my API key?</h3>
+  <p>Sign up on CloudifyDB and get your API key from your dashboard. Keep it secret!</p>
+</section>
+
+<section id="plans">
+  <h2>Pricing Plans</h2>
+
+  <div class="pricing-card">
+    <h3>Free Plan</h3>
+    <ul>
+      <li>250 MB Storage</li>
+      <li>1 Database</li>
+      <li>Unlimited Requests</li>
+      <li>Community Support</li>
+    </ul>
+    <p><strong>Price:</strong> Current plan</p>
+  </div>
+
+  <div class="pricing-card">
+    <h3>Plus Plan</h3>
+    <ul>
+      <li>2 GB Storage</li>
+      <li>Up to 5 Databases</li>
+      <li>Email Support</li>
+      <li>Priority Rate Limits</li>
+    </ul>
+    <p><strong>Price:</strong> 349 <span id="currency"></span></p>
+  </div>
+
+  <div class="pricing-card">
+    <h3>Pro Plan</h3>
+    <ul>
+      <li>10 GB Storage</li>
+      <li>Unlimited Databases</li>
+      <li>24/7 Priority Support</li>
+      <li>Advanced Analytics</li>
+      <li>Custom API Endpoints</li>
+    </ul>
+    <p><strong>Price:</strong> 799 <span id="currency2"></span></p>
+  </div>
+
+  <p>All plans include HTTPS security, automatic backups, and 99.9% uptime guarantee.</p>
+</section>
+
+<section id="start">
+  <h2>Get Started Today</h2>
+  <p>Ready to simplify your Roblox game development? Sign up now and get your CloudifyDB instance running in seconds.</p>
+  
+  <div id="g-signin-button" style="display: flex; justify-content: center; margin: 2rem 0;"></div>
+  
+  <p style="text-align: center; color: var(--muted); font-size: 0.9rem;">
+    By signing up, you agree to our Terms of Service and Privacy Policy.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>&copy; <span id="year">2025</span> CloudifyDB. Made for Roblox developers with love</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="privacy.html" style="color: var(--muted); text-decoration: none;">Privacy Policy</a> | 
+    <a href="terms.html" style="color: var(--muted); text-decoration: none;">Terms of Service</a> | 
+    <a href="support.html" style="color: var(--muted); text-decoration: none;">Support</a>
+  </p>
+</footer>
+
+</body>
+</html>

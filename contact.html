@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - CloudifyDB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2300bcd4' d='M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z'/></svg>">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #1a1a1a;
+      --accent: #00bcd4;
+      --text: #e1e1e1;
+      --muted: #888;
+      --border: #222;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      /* subtle radial vignette for depth */
+      background-image: radial-gradient(circle at center, #222 0%, #0d0d0d 70%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: auto;
+      min-width: 320px;
+    }
+
+    header {
+      text-align: center;
+      padding: clamp(2rem, 5vw, 3rem) 1rem clamp(1.5rem, 4vw, 2rem);
+      border-bottom: 1px solid var(--border);
+      background-color: rgba(26, 26, 26, 0.85);
+      backdrop-filter: blur(6px);
+    }
+
+    ::-webkit-scrollbar {
+      background: transparent;
+      width: 0px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    svg.logo {
+      width: clamp(40px, 6vw, 60px);
+      height: clamp(40px, 6vw, 60px);
+      margin-bottom: 1rem;
+      fill: var(--accent);
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+    }
+
+    p.subtitle {
+      color: var(--muted);
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    }
+
+    main {
+      max-width: 600px;
+      margin: clamp(2rem, 8vw, 4rem) auto clamp(3rem, 10vw, 5rem);
+      padding: 1.5rem clamp(1rem, 4vw, 2rem);
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 188, 212, 0.25);
+      backdrop-filter: blur(6px);
+      transition: padding 0.3s ease;
+    }
+
+    section.contact {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    h2.title {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1rem, 2vw, 1.6rem);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: clamp(0.8rem, 2vw, 1.1rem) clamp(1rem, 2vw, 1.2rem);
+      color: var(--text);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-weight: 400;
+      resize: vertical;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      outline: none;
+    }
+
+    label {
+      font-weight: 400;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+
+    input[type="radio"] {
+      accent-color: var(--accent);
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    p {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+
+    button {
+      padding: clamp(0.9rem, 2vw, 1.2rem) clamp(1.2rem, 4vw, 1.6rem);
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: var(--bg);
+      font-weight: 700;
+      font-size: clamp(1.1rem, 3vw, 1.3rem);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      box-shadow: 0 6px 12px rgba(0, 188, 212, 0.4);
+      user-select: none;
+    }
+
+    button:hover,
+    button:focus {
+      background: #0097a7;
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 188, 212, 0.7);
+      outline: none;
+    }
+
+    @media (max-width: 480px) {
+      main {
+        margin: 1.5rem 1rem 2.5rem;
+        padding: 1.5rem 1rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+      }
+
+      button {
+        font-size: 1.05rem;
+        padding: 0.9rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 2C8.14 2 5 5.14 5 9c0 3.31 2.69 6 6 6h8c2.21 0 4-1.79 4-4s-1.79-4-4-4c-.47 0-.92.08-1.34.23C17.26 5.19 14.93 2 12 2z" />
+    </svg>
+    <h1>Contact Us</h1>
+    <p class="subtitle">We’d love to hear from you!</p>
+  </header>
+
+  <main>
+    <section class="contact">
+      <h2 class="title">Contact Form</h2>
+      <form id="contact-form" novalidate>
+        <input type="text" id="name" name="name" placeholder="Your Name" required autocomplete="name" />
+        <input type="email" id="email" name="email" placeholder="Your Email" required autocomplete="email" />
+        <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+
+        <p>Preferred contact method:</p>
+        <label><input type="radio" name="contactMethod" value="email" checked /> Email</label>
+        <label><input type="radio" name="contactMethod" value="none" /> No contact</label>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("contact-form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const name = formData.get("name").trim();
+      const email = formData.get("email").trim();
+      const message = formData.get("message").trim();
+      const contactMethod = formData.get("contactMethod");
+
+      if (!name || !email || !message) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      alert(
+        `Thanks for contacting us, ${name}!\nPreferred contact method: ${contactMethod}`
+      );
+      form.reset();
+    });
+  </script>
+</body>
+
+</html>
